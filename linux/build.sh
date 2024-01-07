@@ -18,7 +18,7 @@ if [ "$(uname -m)" != "x86_64" ] && [ "$IGNORE_ARCH" != "true" ]; then
 fi
 
 clean(){
-	rm /tmp/tor.keyring /tmp/mullvad-browser-linux-x86_64-$MB_VERSION.tar.{xz,xz.asc}
+	rm /tmp/tor.keyring /tmp/$MB_FILE /tmp/$MB_FILE.asc
 }
 
 install(){
@@ -26,8 +26,8 @@ install(){
 	echo "This script compiles i2pd from source, and downloads Mullvad Browser from dist[.]torproject[.]org"
 	echo "Take this time to install the required dependencies to do so, and take any precautions if accessing dist[.]torproject[.]org is unsafe in your location."
 	echo "Press Enter to continue, or Ctrl+C to exit without making any changes."
-	read -rs
-	if [ "$SIGVERIFY" = "true" ]; then
+	read -r out
+	if [ "$SIGVERIFY" != "true" ]; then
 		gpg --import 0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290.asc
 		gpg --output /tmp/tor.keyring --export 0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290
 	else
@@ -37,15 +37,20 @@ install(){
 	if [ "$WGET" = "true" ]; then
 		echo "Using Wget..."
 		wget -O /tmp/$MB_FILE $MB_URL
-		wget -O /tmp/$MB_FILE.asc $MB_URL.asc
 		wget -O /tmp/sha256sums-signed-build.txt $MB_ROOT/sha256sums-signed-build.txt
-		wget -O /tmp/sha256sums-signed-build.txt.asc $MB_ROOT/sha256sums-signed-build.txt.asc
+
+		if [ "$SIGVERIFY" != "true" ]; then
+			wget -O /tmp/$MB_FILE.asc $MB_URL.asc
+			wget -O /tmp/sha256sums-signed-build.txt.asc $MB_ROOT/sha256sums-signed-build.txt.asc
+		fi
 	else
 		echo "Using cURL..."
 		curl -o /tmp/$MB_FILE $MB_URL
-		curl -o /tmp/$MB_FILE.asc $MB_URL.asc
 		curl -o /tmp/sha256sums-signed-build.txt $MB_ROOT/sha256sums-signed-build.txt
-		curl -o /tmp/sha256sums-signed-build.txt.asc $MB_ROOT/sha256sums-signed-build.txt.asc
+		if [ "$SIGVERIFY" != "true" ]; then
+			curl -o /tmp/$MB_FILE.asc $MB_URL.asc
+			curl -o /tmp/sha256sums-signed-build.txt.asc $MB_ROOT/sha256sums-signed-build.txt.asc
+		fi
 	fi
 }
 
