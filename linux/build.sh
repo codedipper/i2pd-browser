@@ -27,7 +27,7 @@ install(){
 	echo "Take this time to install the required dependencies to do so, and take any precautions if accessing dist[.]torproject[.]org is unsafe in your location."
 	echo "Press Enter to continue, or Ctrl+C to exit without making any changes."
 	read -rs
-	if [ "$SIGVERIFY = "true" ]; then
+	if [ "$SIGVERIFY" = "true" ]; then
 		gpg --import 0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290.asc
 		gpg --output /tmp/tor.keyring --export 0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290
 	else
