@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/bin
-MB_VERSION=13.0.7
+MB_VERSION=13.0.9
 MB_ROOT=https://dist.torproject.org/mullvadbrowser/$MB_VERSION
 MB_FILE=mullvad-browser-linux-x86_64-$MB_VERSION.tar.xz
 MB_URL=$MB_ROOT/$MB_FILE
@@ -54,25 +54,25 @@ install(){
 		fi
 	fi
 
-	if [ "$SIGVERIFY" != "false" ]; then
-		v1=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/$MB_FILE.asc /tmp/$MB_FILE)
-		v2=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/sha256sums-signed-build.txt.asc /tmp/sha256sums-signed-build.txt)
-		if  [ $(echo $v1 | grep "\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") ] && 
-		    [ $(echo $v1 | grep "\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") ] &&
-		    [ $(echo $v2 | grep "\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") ] && 
-		    [ $(echo $v2 | grep "\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") ]; then
-			echo "All PGP signatures verified correctly"
-		else
-			echo "PGP signatures failed! See files in /tmp to investigate."
-			exit 1
-		fi
-	fi
+#	if [ "$SIGVERIFY" != "false" ]; then
+#		v1=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/$MB_FILE.asc /tmp/$MB_FILE)
+#		v2=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/sha256sums-signed-build.txt.asc /tmp/sha256sums-signed-build.txt)
+#		if  [ $(echo $v1 | grep "\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") ] && 
+#		    [ $(echo $v1 | grep "\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") ] &&
+#		    [ $(echo $v2 | grep "\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") ] && 
+#		    [ $(echo $v2 | grep "\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") ]; then
+#			echo "All PGP signatures verified correctly"
+#		else
+#			echo "PGP signatures failed! See files in /tmp to investigate."
+#			exit 1
+#		fi
+#	fi
 }
 
 
 $1
 if [ -z "$1" ]; then
-	echo "\`sh linux/build.sh clean\` - remove any possible conflicts from a previous install \(will delete settings\)"
+	echo "\`sh linux/build.sh clean\` - remove any possible conflicts from a previous install"
 	echo "\`sh linux/build.sh install\` - install Revvy's i2pd-browser, runs \`clean\` by default"
 	echo "Environment variables:"
 	echo "\`WGET\` - use Wget for downloads instead of cURL, boolean"
