@@ -1,6 +1,6 @@
 # Revvy's i2pd-browser
 ## About
-This repository contains scripts to:\
+This repository contains scripts to:
 - Download Mullvad Browser [x]
 - Verify Mullvad Browser's SHA256 checksums []
 - Verify Mullvad Browser's PGP signatures []
