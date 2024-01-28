@@ -67,6 +67,14 @@ install(){
 			exit 1
 		fi
 	fi
+
+	cd /tmp
+	if $(cat /tmp/sha256sums-signed-build.txt | grep -q "$(sha256sum $MB_FILE)"); then
+		echo "SHA256 checksums correct"
+	else
+		echo "SHA256 checksums failed! See files in /tmp to investigate."
+		exit 1
+	fi
 }
 
 $1
