@@ -33,7 +33,7 @@ install(){
 	else
 		echo "Not verifying signatures \(dangerous\)..."
 	fi
-	
+
 	if [ "$WGET" = "true" ]; then
 		echo "Using Wget..."
 		wget -O /tmp/$MB_FILE $MB_URL
@@ -54,21 +54,20 @@ install(){
 		fi
 	fi
 
-#	if [ "$SIGVERIFY" != "false" ]; then
-#		v1=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/$MB_FILE.asc /tmp/$MB_FILE)
-#		v2=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/sha256sums-signed-build.txt.asc /tmp/sha256sums-signed-build.txt)
-#		if  [ $(echo $v1 | grep "\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") ] && 
-#		    [ $(echo $v1 | grep "\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") ] &&
-#		    [ $(echo $v2 | grep "\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") ] && 
-#		    [ $(echo $v2 | grep "\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") ]; then
-#			echo "All PGP signatures verified correctly"
-#		else
-#			echo "PGP signatures failed! See files in /tmp to investigate."
-#			exit 1
-#		fi
-#	fi
+	if [ "$SIGVERIFY" != "false" ]; then
+		v1=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/$MB_FILE.asc /tmp/$MB_FILE)
+		v2=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/sha256sums-signed-build.txt.asc /tmp/sha256sums-signed-build.txt)
+		if $(echo "$v1" | grep -q "^\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") && 
+		   $(echo "$v1" | grep -q "^\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") &&
+		   $(echo "$v2" | grep -q "^\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") && 
+		   $(echo "$v2" | grep -q "^\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF"); then
+			echo "All PGP signatures verified correctly"
+		else
+			echo "PGP signatures failed! See files in /tmp to investigate."
+			exit 1
+		fi
+	fi
 }
-
 
 $1
 if [ -z "$1" ]; then
