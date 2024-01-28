@@ -1,6 +1,6 @@
 # Revvy's i2pd-browser
 ## About
-This repository contains scripts to download Mullvad Browser, verify its PGP signatures and SHA256 checksums, statically compile I2Pd, configure Mullvad Browser for use with I2Pd and install I2Pd Browser into a directory.
+This repository contains scripts to "build" I2PdBrowser, which is based on Mullvad Browser.
 You may be looking for the [official i2pdbrowser](https://github.com/PurpleI2P/i2pdbrowser).\
 The scripts in this repository contain no derivatives from the official i2pdbrowser repository.
 
