@@ -55,8 +55,8 @@ install(){
 	fi
 
 	if [ "$SIGVERIFY" != "false" ]; then
-		v1=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/$MB_FILE.asc /tmp/$MB_FILE)
-		v2=$(gpg --status-fd 1 --no-default-keyring --keyring /tmp/tor.keyring --verify /tmp/sha256sums-signed-build.txt.asc /tmp/sha256sums-signed-build.txt)
+		v1=$(gpgv --status-fd 1 --keyring /tmp/tor.keyring /tmp/$MB_FILE.asc /tmp/$MB_FILE)
+		v2=$(gpgv --status-fd 1 --keyring /tmp/tor.keyring /tmp/sha256sums-signed-build.txt.asc /tmp/sha256sums-signed-build.txt)
 		if $(echo "$v1" | grep -q "^\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") && 
 		   $(echo "$v1" | grep -q "^\[GNUPG:\] VALIDSIG 613188FC5BE2176E3ED54901E53D989A9E2D47BF") &&
 		   $(echo "$v2" | grep -q "^\[GNUPG:\] KEY_CONSIDERED EF6E286DDA85EA2A4BA7DE684E2C6E8793298290") && 
