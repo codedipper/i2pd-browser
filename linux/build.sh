@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/bin
-MB_VERSION=13.0.10
+MB_VERSION=13.0.11
 MB_ROOT=https://dist.torproject.org/mullvadbrowser/$MB_VERSION
 MB_FILE=mullvad-browser-linux-x86_64-$MB_VERSION.tar.xz
 MB_URL=$MB_ROOT/$MB_FILE
